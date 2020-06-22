@@ -1,6 +1,8 @@
 
 [![Discord Bots](https://top.gg/api/widget/710137790897062059.svg)](https://top.gg/bot/710137790897062059)
 ***
+![alt text](https://cdn.discordapp.com/attachments/707254966334521364/721580590716944406/20200614_012330_0000.png "Welcome!")
+***
 Hello.
 
 I’m a very useful music bot that can make you play a music with a simple command! I have a lot of good commands that you can have a better experience playing your favorites songs! Problems with the prefix? You can also change the bot prefix running a simple command! It contains a very complete help that you can run command into the bot dms, you can use *help and have an better description of the command!
