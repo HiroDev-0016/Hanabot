@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
-
+const db = require('quick.db')
 module.exports = class PauseCommand extends Command {
   constructor(client) {
     super(client, {
@@ -13,7 +13,21 @@ module.exports = class PauseCommand extends Command {
     });
   }
 
-  run(message) {
+async  run(message) {
+const language = await db.fetch(`language_${message.guild.id}`)
+let bl3 = await db.fetch(`blist_${message.author.id}`)
+let blreasom = await db.fetch(`blreason_${message.author.id}`)
+if(bl3 === '<:enabled:730821706347708437>')
+if(language === 1) {
+return message.say(`
+<:blacklisted:729074968104534116> **| <@${message.author.id}> , Você está banido!**
+:notepad_spiral: **| Motivo:** \`${blreasom}\``)
+} else {
+return message.say(`
+<:blacklisted:729074968104534116> **| <@${message.author.id}> , You are banned!!**
+:notepad_spiral: **| Reason:** \`${blreasom}\``)
+}
+db.add(`cu_${message.author.id}`, 1)
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
@@ -112,7 +126,6 @@ Current Stats: **I left ${message.guild.me.voice.channel.name}**
             coletor2.on("collect", cp =>{
                message.guild.musicData.songDispatcher.resume();
                 msg.edit(embedplay)
-                
 
             })
             let filtro3 = (reaction, usuario) => reaction.emoji.name === "⏭" && usuario.id === message.author.id;
@@ -120,7 +133,6 @@ Current Stats: **I left ${message.guild.me.voice.channel.name}**
             coletor3.on("collect", cp =>{
     message.guild.musicData.songDispatcher.end();
      msg.edit(skip)
-
             })
             let filtro4 = (reaction, usuario) => reaction.emoji.name === "⏹" && usuario.id === message.author.id;
             let coletor4 = msg.createReactionCollector(filtro4, {max: 99999})

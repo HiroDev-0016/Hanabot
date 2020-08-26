@@ -4,7 +4,7 @@ module.exports = class LeaveCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'leave',
-      aliases: ['end'],
+      aliases: ['sair'],
       group: 'music',
       memberName: 'leave',
       guildOnly: true,
@@ -12,7 +12,9 @@ module.exports = class LeaveCommand extends Command {
     });
   }
 
-  run(message) {
+async  run(message) {
+const db = require('quick.db')
+db.add(`cu_${message.author.id}`, 1)
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) return message.reply('Join a channel and try again');
 

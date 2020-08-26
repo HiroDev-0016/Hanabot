@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-
+const db = require('quick.db')
 module.exports = class VolumeCommand extends Command {
   constructor(client) {
     super(client, {
@@ -24,7 +24,21 @@ module.exports = class VolumeCommand extends Command {
     });
   }
 //MADE BY CTK
-  run(message, { wantedVolume }) {
+async  run(message, { wantedVolume }) {
+const language = await db.fetch(`language_${message.guild.id}`)
+let bl3 = await db.fetch(`blist_${message.author.id}`)
+let blreasom = await db.fetch(`blreason_${message.author.id}`)
+if(bl3 === '<:enabled:730821706347708437>')
+if(language === 1) {
+return message.say(`
+<:blacklisted:729074968104534116> **| <@${message.author.id}> , Você está banido!**
+:notepad_spiral: **| Motivo:** \`${blreasom}\``)
+} else {
+return message.say(`
+<:blacklisted:729074968104534116> **| <@${message.author.id}> , You are banned!!**
+:notepad_spiral: **| Reason:** \`${blreasom}\``)
+}
+db.add(`cu_${message.author.id}`, 1)
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) return message.reply('Join a channel and try again');
 

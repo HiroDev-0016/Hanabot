@@ -3,12 +3,13 @@ const { MessageEmbed } = require('discord.js');
 const Youtube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
 const db = require('quick.db')
+
 module.exports = class PlayCommand extends Command {
   constructor(client) {
     super(client, {
-      name: 'play',
-      aliases: ['play-song', 'p'],
-      memberName: 'play',
+      name: 'ptplay',
+      aliases: ['tocar', 'ptp'],
+      memberName: 'ptplay',
       group: 'music',
       description: 'Play any song or playlist from youtube',
       guildOnly: false,
@@ -19,13 +20,14 @@ module.exports = class PlayCommand extends Command {
       args: [
         {
           key: 'query',
-          prompt: 'What song or playlist would you like to listen to?',
+          prompt: 'Qual música ou playlist você quer ouvir?',
           type: 'string',
           validate: query => query.length > 0 && query.length < 200
         }
-      ]
+    ]
     });
   }
+  
 
   async run(message, { query }) {
 const language = await db.fetch(`language_${message.guild.id}`)
@@ -55,6 +57,7 @@ const rando_imgs = [
 ]
 youtubeAPI = rando_imgs[Math.floor(Math.random() * rando_imgs.length)]
 const youtube = new Youtube(youtubeAPI);
+
 const embedvc = new MessageEmbed()
   .setColor('RED')
   .setTitle('<a:erro:720379774882545724> Error')
@@ -64,7 +67,7 @@ const embedvc = new MessageEmbed()
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel)
       return message.say(
-        '<a:erro:645296618492395530> Join in a **Voice Channel** before select a music'
+        '<a:no:698990098905169951> Entre em um canal de voz antes que selecionar uma música!'
       );
     // end initial check
     if (message.guild.triviaData.isTriviaRunning == true)
@@ -108,28 +111,22 @@ const embedvc = new MessageEmbed()
           message.guild.musicData.isPlaying = true;
           return this.playSong(message.guild.musicData.queue, message);
         } else if (message.guild.musicData.isPlaying == true) {
-          return message.say(`Adding.`).then(msg => {
+          return message.say(`<a:windows_loading:715751950318305282> Adding.`).then(msg => {
             setTimeout(function() {
-              msg.edit(`Adding..`);
+              msg.edit(`<a:windows_loading:715751950318305282> Adicionando..`);
             }, 3000);
             setTimeout(function() {
-              msg.edit(`Adding...`);
+              msg.edit(`<a:windows_loading:715751950318305282> Adicionando...`);
             }, 3000);
             setTimeout(function() {
-              msg.edit(`Adding.`);
-            }, 3000);
-            setTimeout(function() {
-              msg.edit(`Adding..`);
-            }, 3000);
-            setTimeout(function() {
-              msg.edit(`Sucessfully added `);
+              msg.edit(`<a:certo:699014500594090115> Sucessfully added your playlist to the queue!`);
             }, 3000);
           });
         }
       } catch (err) {
         console.error(err);
         return message.say(
-          '<a:mutem:703987260139241572> Playist is private or a invalid link has been placed!'
+          '<a:erro:720379774882545724> A playlist é invalida ou um url inválido foi colocado!'
         );
       }
     }
@@ -176,34 +173,28 @@ const embedvc = new MessageEmbed()
           message.guild.musicData.isPlaying = true;
           return this.playSong(message.guild.musicData.queue, message);
         } else if (message.guild.musicData.isPlaying == true) {
-          return message.say(`Adding.`).then(msg => {
+          return message.say(`<a:windows_loading:715751950318305282> Adding.`).then(msg => {
             setTimeout(function() {
-              msg.edit(`Adding..`);
+              msg.edit(`<a:windows_loading:715751950318305282> Adding..`);
             }, 3000);
             setTimeout(function() {
-              msg.edit(`Adding...`);
+              msg.edit(`<a:windows_loading:715751950318305282> Adding...`);
             }, 3000);
             setTimeout(function() {
-              msg.edit(`Adding.`);
-            }, 3000);
-            setTimeout(function() {
-              msg.edit(`Adding..`);
-            }, 3000);
-            setTimeout(function() {
-              msg.edit(`Sucessfully added **${song.title}**!`);
+              msg.edit(`<a:certo:699014500594090115> Sucessfully added **${song.title}** to the queue!`);
             }, 3000);
           });
         }
       } catch (err) {
         console.error(err);
-        return message.say(':no: Something went wrong');
+        return message.say(':no: Alguma coisa deu errado :/');
       }
     }
     try {
       const videos = await youtube.searchVideos(query, 5);
       if (videos.length < 5) {
         return message.say(
-          `I had some trouble finding what you were looking for, please try again or be more specific`
+          `<a:erro:720379774882545724> Eu não encontrei nenhum resultado para sua pesquisa...`
         );
       }
       const vidLinkArr = [];
@@ -218,34 +209,34 @@ const embedvc = new MessageEmbed()
 
       const embed2 = new MessageEmbed()
         .setColor('RANDOM')
-        .setTitle('<a:no:698990098905169951> Missing Arguments')
+        .setTitle('<a:no:698990098905169951> Fim do tempo! ')
         .setDescription(
-          '<a:windows_loading:715751950318305282> The time to select the music was gone, please always provide a number from 1 to 5, according to the song title.'
+          '<a:windows_loading:715751950318305282> O tempo de selecionar a música acabou, lembre de sempre colocar um número valido de 1 a 5, de acordo com os títulos!'
         )
-        .setFooter('Hana, by Hiro');
-      var songEmbed = await message.say(`<a:windows_loading:715751950318305282> Searching.`).then(msg => {
+        .setFooter('Hana, por Hiro');
+      var songEmbed = await message.say(` <a:windows_loading:715751950318305282> Pesquisando.`).then(msg => {
         setTimeout(function() {
-          msg.edit(`<a:windows_loading:715751950318305282> Searching..`);
+          msg.edit(`<a:windows_loading:715751950318305282> Pesquisando..`);
         }, 3000);
         setTimeout(function() {
-          msg.edit(`<a:windows_loading:715751950318305282> Searching...`);
+          msg.edit(`<a:windows_loading:715751950318305282> Pesquisando...`);
         }, 3000);
         setTimeout(function() {
-          msg.edit(`**Choose a song by commenting a number between 1 and 5**
+          msg.edit(`**Escolha uma música, colocando um numero de 1 a 5**
 
-**Song 1:** ${vidNameArr[0]}
-**Song 2:** ${vidNameArr[1]}
-**Song 3:** ${vidNameArr[2]}
-**Song 4:** ${vidNameArr[3]}
-**Song 5:** ${vidNameArr[4]}
-**Leave the Song Selection:**  Wait 30 seconds`)
+**Som 1:** ${vidNameArr[0]}
+**Som 2:** ${vidNameArr[1]}
+**Som 3:** ${vidNameArr[2]}
+**Som 4:** ${vidNameArr[3]}
+**Som 5:** ${vidNameArr[4]}
+**Sair da seleção:**  Esperar 30 segundos`)
         }, 4000)
         setTimeout(function() {
-          msg.edit('<a:windows_loading:715751950318305282> Deleting.');
+          msg.edit('<a:windows_loading:715751950318305282> Deletando.');
         }, 34000)
 
         setTimeout(function() {
-          msg.edit('<a:windows_loading:715751950318305282> Deleting..');
+          msg.edit('<a:windows_loading:715751950318305282> Deletando..');
         }, 35000)
 
         setTimeout(function() {
@@ -292,7 +283,7 @@ const embedvc = new MessageEmbed()
           songEmbed.delete();
         }
         return message.say(
-          'An error has occured when trying to get the video ID from youtube'
+          '<a:erro:720379774882545724> Ocorreu um erro ao tentar pegar o ID do vídeo no youtube, contate nossa equipe.'
         );
       }
       const url = `https://www.youtube.com/watch?v=${video.raw.id}`;
@@ -324,7 +315,7 @@ const embedvc = new MessageEmbed()
 
         this.playSong(message.guild.musicData.queue, message);
       } else if (message.guild.musicData.isPlaying == true) {
-        message.channel.send(`Sucessfully added **${song.title}**`)
+        message.channel.send(`A música **${song.title}** foi adicionada na fila!`)
       };
     } catch (err) {
       console.error(err);
@@ -332,7 +323,7 @@ const embedvc = new MessageEmbed()
         songEmbed.delete();
       }
       return message.say(
-        '<a:no:698990098905169951> Something went wrong searching the video... Try again later or contact our support.'
+        '<a:erro:720379774882545724> Ocorreu um erro durante a pesquisa, tente novamente ou contate nossa equipe.'
       );
     }
   }
@@ -353,9 +344,9 @@ const embedvc = new MessageEmbed()
             const videoEmbed = new MessageEmbed()
               .setThumbnail(queue[0].thumbnail)
               .setColor('#e9f931')
-              .addField('Now Playing:', queue[0].title)
-              .addField('Duration:', queue[0].duration)
-            if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
+              .addField('Tocando:', queue[0].title)
+              .addField('Duração:', queue[0].duration)
+            if (queue[1]) videoEmbed.addField('Próximo som na fila:', queue[1].title);
             message.say(videoEmbed);
             message.guild.musicData.nowPlaying = queue[0];
             return queue.shift();
@@ -371,7 +362,7 @@ const embedvc = new MessageEmbed()
             }
           })
           .on('error', e => {
-            message.say('<a:no:698990098905169951> Something went wrong!');
+            message.say('<a:no:698990098905169951> Um problema foi detectado em meus códigos, contate o suporte imediatamente!');
             console.error(e);
             message.guild.musicData.queue.length = 0;
             message.guild.musicData.isPlaying = false;

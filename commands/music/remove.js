@@ -17,7 +17,22 @@ module.exports = class RemoveSongCommand extends Command {
       ]
     });
   }
-  run(message, { songNumber }) {
+async  run(message, { songNumber }) {
+const db = require('quick.db')
+const language = await db.fetch(`language_${message.guild.id}`)
+let bl3 = await db.fetch(`blist_${message.author.id}`)
+let blreasom = await db.fetch(`blreason_${message.author.id}`)
+if(bl3 === '<:enabled:730821706347708437>')
+if(language === 1) {
+return message.say(`
+<:blacklisted:729074968104534116> **| <@${message.author.id}> , Você está banido!**
+:notepad_spiral: **| Motivo:** \`${blreasom}\``)
+} else {
+return message.say(`
+<:blacklisted:729074968104534116> **| <@${message.author.id}> , You are banned!!**
+:notepad_spiral: **| Reason:** \`${blreasom}\``)
+}
+db.add(`cu_${message.author.id}`, 1)
     if (songNumber < 1 && songNumber >= message.guild.musicData.queue.length) {
       return message.reply('Please enter a valid song number');
     }
